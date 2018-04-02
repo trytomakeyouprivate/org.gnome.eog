@@ -1,7 +1,7 @@
 {
     "app-id": "org.gnome.eog",
     "runtime": "org.gnome.Platform",
-    "runtime-version": "3.26",
+    "runtime-version": "3.28",
     "sdk": "org.gnome.Sdk",
     "branch": "stable",
     "command": "eog",
@@ -39,8 +39,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://download.gnome.org/sources/gnome-desktop/3.26/gnome-desktop-3.26.2.tar.xz",
-                    "sha256": "f7561a7a313fc474b2c390cd9696df1f5c1e1556080e43f4afe042b1060e5f2a"
+                    "url": "https://download.gnome.org/sources/gnome-desktop/3.28/gnome-desktop-3.28.0.tar.xz",
+                    "sha256": "f1df71c39e32147f6d58f53a9c05b964b00b7c98fbca090419355437c72fd59d"
                 }
             ]
         },
@@ -56,13 +56,46 @@
             ]
         },
         {
-            "name": "eog",
-            "config-opts": [ ],
+            "name": "boost",
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://download.gnome.org/sources/eog/3.26/eog-3.26.2.tar.xz",
-                    "sha256": "b53e3d4dfa7d0085b829a5fb95f148a099803c00ef276be7685efd5ec38807ad"
+                    "url": "http://sourceforge.net/projects/boost/files/boost/1.64.0/boost_1_64_0.tar.bz2",
+                    "sha256": "7bcc5caace97baa948931d712ea5f37038dbb1c5d89b43ad4def4ed7cb683332"
+                }
+            ],
+            "buildsystem": "simple",
+            "build-commands": [
+                "./bootstrap.sh --prefix=/app",
+                "./b2 install --with-system --with-thread --with-test --prefix=/app"
+            ]
+        },
+        {
+            "name": "exempi",
+            "rm-configure": true,
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://libopenraw.freedesktop.org/download/exempi-2.4.5.tar.bz2",
+                    "sha256": "406185feb88e84ea1d4b4251370be2991205790d7113a7e28e192ff46a4f221e"
+                },
+                {
+                    "type": "script",
+                    "dest-filename": "autogen.sh",
+                    "commands": [
+                        "autoreconf -vfi"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "eog",
+            "buildsystem": "meson",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://download.gnome.org/sources/eog/3.28/eog-3.28.0.tar.xz",
+                    "sha256": "5bfadb2f17ed09c93d8e9cda25d10d2dc215e8d648df56503b1641dd7c890e35"
                 }
             ]
         },
@@ -71,8 +104,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://download.gnome.org/sources/eog-plugins/3.26/eog-plugins-3.26.1.tar.xz",
-                    "sha256": "a73d0dc7a9190781f65d3132e0b1e13b666e13a1591a7cf97c1e9835aa70856c"
+                    "url": "https://download.gnome.org/sources/eog-plugins/3.26/eog-plugins-3.26.2.tar.xz",
+                    "sha256": "1ecd0551b2d3a3e5b8ad942bac5349f85bbe76c336861996a79c6ec7e7e11ff1"
                 }
             ]
         }
