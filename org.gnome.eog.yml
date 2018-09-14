@@ -41,8 +41,8 @@ modules:
     config-opts: [--disable-debug-tools, --disable-udev]
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/gnome-desktop/3.28/gnome-desktop-3.28.0.tar.xz
-        sha256: f1df71c39e32147f6d58f53a9c05b964b00b7c98fbca090419355437c72fd59d
+        url: https://download.gnome.org/sources/gnome-desktop/3.28/gnome-desktop-3.28.2.tar.xz
+        sha256: 605087bff17c61bc167ccb5a61ed4d06eab922fcce384576ed2a3577214c8330
 
   - name: libpeas
     cleanup: [/bin/*, /lib/peas-demo]
@@ -77,11 +77,11 @@ modules:
     buildsystem: meson
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/eog/3.28/eog-3.28.0.tar.xz
-        sha256: 5bfadb2f17ed09c93d8e9cda25d10d2dc215e8d648df56503b1641dd7c890e35
+        url: https://download.gnome.org/sources/eog/3.28/eog-3.28.3.tar.xz
+        sha256: 37aeddfbf440751fce23bfae491184e3b5c618ebf9d56f491bac37896ada48d2
 
   - name: eog-plugins
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/eog-plugins/3.26/eog-plugins-3.26.2.tar.xz
-        sha256: 1ecd0551b2d3a3e5b8ad942bac5349f85bbe76c336861996a79c6ec7e7e11ff1
+        url: https://download.gnome.org/sources/eog-plugins/3.26/eog-plugins-3.26.3.tar.xz
+        sha256: e385281649e7ef9e38005a73ffd5688769233a2bc8fc03e62e4da1708596d619
