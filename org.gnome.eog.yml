@@ -21,11 +21,8 @@ finish-args:
   - --filesystem=~/.config/dconf:ro
   - --talk-name=ca.desrt.dconf
   - --env=DCONF_USER_CONFIG_DIR=.config/dconf
-build-options:
-  cflags: -O2 -g
-  cxxflags: -O2 -g
-  env:
-    V: '1'
+  # For webp pixbuf module
+  - --env=GDK_PIXBUF_MODULE_FILE=/app/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
 cleanup:
   - /include
   - /lib/pkgconfig
@@ -34,6 +31,7 @@ cleanup:
   - /man
   - /share/man
   - /share/gtk-doc
+  - /share/gir-1.0
   - '*.la'
   - '*.a'
 modules:
@@ -51,17 +49,8 @@ modules:
         url: https://download.gnome.org/sources/libpeas/1.22/libpeas-1.22.0.tar.xz
         sha256: 5b2fc0f53962b25bca131a5ec0139e6fef8e254481b6e777975f7a1d2702a962
 
-  - name: boost
-    buildsystem: simple
-    build-commands:
-      - ./bootstrap.sh --prefix=/app
-      - ./b2 install --with-system --with-thread --with-test --prefix=/app
-    sources:
-      - type: archive
-        url: http://sourceforge.net/projects/boost/files/boost/1.64.0/boost_1_64_0.tar.bz2
-        sha256: 7bcc5caace97baa948931d712ea5f37038dbb1c5d89b43ad4def4ed7cb683332
-
   - name: exempi
+    cleanup: [ /bin ]
     rm-configure: true
     sources:
       - type: archive
@@ -69,9 +58,36 @@ modules:
         sha256: 406185feb88e84ea1d4b4251370be2991205790d7113a7e28e192ff46a4f221e
 
       - type: script
-        dest-filename: autogen.sh
         commands:
           - autoreconf -vfi
+    modules:
+      - name: boost
+        buildsystem: simple
+        build-commands:
+          - ./bootstrap.sh --prefix=/app
+          - ./b2 install --with-system --with-thread --with-test --prefix=$FLATPAK_DEST -j $FLATPAK_BUILDER_N_JOBS
+        sources:
+          - type: archive
+            url: https://dl.bintray.com/boostorg/release/1.68.0/source/boost_1_68_0.tar.bz2
+            sha256: 7f6130bc3cf65f56a618888ce9d5ea704fa10b462be126ad053e80e553d6d8b7
+
+  - name: libwebp
+    config-opts: [ --disable-static, --enable-libwebpmux, --enable-libwebpdemux ]
+    cleanup: [ /share, /bin ]
+    sources:
+      - type: archive
+        url: https://github.com/webmproject/libwebp/archive/v1.0.0.tar.gz
+        sha256: c5c5ebf979543ac1f3348df8f6245262abd787a147b9632c880d92bfc38dbbeb
+
+  - name: webp-pixbuf-loader
+    buildsystem: cmake-ninja
+    sources:
+      - type: git
+        url: https://github.com/aruiz/webp-pixbuf-loader.git
+        commit: 9b92950d49d7939f90ba7413deb7ec6b392b2054
+    post-install:
+      - GDK_PIXBUF_MODULEDIR=/app/lib/gdk-pixbuf-2.0/2.10.0/loaders/ gdk-pixbuf-query-loaders > /app/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
+      - gdk-pixbuf-query-loaders >> /app/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
 
   - name: eog
     buildsystem: meson
