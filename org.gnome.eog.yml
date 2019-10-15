@@ -1,8 +1,7 @@
 app-id: org.gnome.eog
 runtime: org.gnome.Platform
-runtime-version: '3.32'
+runtime-version: '3.34'
 sdk: org.gnome.Sdk
-branch: stable
 command: eog
 rename-desktop-file: eog.desktop
 rename-appdata-file: eog.appdata.xml
@@ -14,11 +13,9 @@ finish-args:
   - --socket=wayland
   # We want full fs access so we can read the files
   - --filesystem=host
-  # Needed for dconf to work
-  - --filesystem=xdg-run/dconf
-  - --filesystem=~/.config/dconf:ro
-  - --talk-name=ca.desrt.dconf
-  - --env=DCONF_USER_CONFIG_DIR=.config/dconf
+  # Migrate old dconf settings
+  - --metadata=X-DConf=migrate-path=/org/gnome/eog/
+
   # For webp pixbuf module
   - --env=GDK_PIXBUF_MODULE_FILE=/app/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
 cleanup:
@@ -37,47 +34,39 @@ modules:
     buildsystem: meson
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/gnome-desktop/3.32/gnome-desktop-3.32.0.tar.xz
-        sha256: a6393dc5fc29fc0652ac84c73b3da205d0b0168128c4cf6d27797a08f3d07b54 
+        url: https://download.gnome.org/sources/gnome-desktop/3.34/gnome-desktop-3.34.1.tar.xz
+        sha256: c1dbeb5666dad27166c769e48e2ab41dd5ed74718ea35eb57c8488790662dc5a 
 
   - name: libpeas
+    buildsystem: meson
     cleanup: [/bin/*, /lib/peas-demo]
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/libpeas/1.22/libpeas-1.22.0.tar.xz
-        sha256: 5b2fc0f53962b25bca131a5ec0139e6fef8e254481b6e777975f7a1d2702a962
+        url: https://download.gnome.org/sources/libpeas/1.24/libpeas-1.24.0.tar.xz
+        sha256: 0b9a00138c129a663de3eef5569b00ace03ce31d345f7af783768e9f35c8e6f9
 
   - name: exempi
     cleanup: [ /bin ]
     rm-configure: true
+    config-opts:
+      - --disable-unittest
     sources:
       - type: archive
-        url: https://libopenraw.freedesktop.org/download/exempi-2.5.0.tar.bz2
-        sha256: dc82fc24c0540a44a63fa4ad21775d24e00e63f1dedd3e2ae6f7aa27583b711b
+        url: https://libopenraw.freedesktop.org/download/exempi-2.5.1.tar.bz2
+        sha256: 100b3d5b1b3370bc2e31c0978991716c4a4478246a2ac2df6382054a0ae89bc8
 
       - type: script
         commands:
           - autoreconf -vfi
-    modules:
-      - name: boost
-        buildsystem: simple
-        build-commands:
-          - ./bootstrap.sh --prefix=/app --with-libraries=test
-          - ./b2 -j ${FLATPAK_BUILDER_N_JOBS} headers
-          - ./b2 install
-        cleanup: ["*"]
-        sources:
-          - type: archive
-            url: https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.bz2
-            sha256: 8f32d4617390d1c2d16f26a27ab60d97807b35440d45891fa340fc2648b04406
+
 
   - name: libwebp
     config-opts: [ --disable-static, --enable-libwebpmux, --enable-libwebpdemux ]
     cleanup: [ /share, /bin ]
     sources:
       - type: archive
-        url: https://github.com/webmproject/libwebp/archive/v1.0.2.tar.gz
-        sha256: 347cf85ddc3497832b5fa9eee62164a37b249c83adae0ba583093e039bf4881f
+        url: https://github.com/webmproject/libwebp/archive/v1.0.3.tar.gz
+        sha256: 082d114bcb18a0e2aafc3148d43367c39304f86bf18ba0b2e766447e111a4a91
 
   - name: webp-pixbuf-loader
     buildsystem: cmake-ninja
@@ -93,11 +82,11 @@ modules:
     buildsystem: meson
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/eog/3.32/eog-3.32.0.tar.xz
-        sha256: ff0430e7baf88cd6dc7eb4ccd0f38d3ef4557db9be19c513f70109120196ac00
+        url: https://download.gnome.org/sources/eog/3.34/eog-3.34.1.tar.xz
+        sha256: fdb0739f8420af2ffb8e91c766a154afefdf20f721ad34b56cab27fd1569f42c
 
   - name: eog-plugins
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/eog-plugins/3.26/eog-plugins-3.26.3.tar.xz
-        sha256: e385281649e7ef9e38005a73ffd5688769233a2bc8fc03e62e4da1708596d619
+        url: https://download.gnome.org/sources/eog-plugins/3.26/eog-plugins-3.26.4.tar.xz
+        sha256: dd5a4f537d56d30e25931d32865abf684eac69362ce8320941c547461476a75d
