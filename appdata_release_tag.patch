@@ -1,0 +1,12 @@
+--- a/data/eog.appdata.xml.in	2019-10-07 21:08:34.000000000 +0200
++++ b/data/eog.appdata.xml.in	2019-10-16 00:37:55.697642709 +0200
+@@ -35,6 +35,9 @@
+     <kudo>ModernToolkit</kudo>
+     <kudo>UserDocs</kudo>
+   </kudos>
++  <releases>
++    <release version="3.34.1" date="2019-10-07" />
++  </releases>
+   <project_group>GNOME</project_group>
+   <compulsory_for_desktop>GNOME</compulsory_for_desktop>
+   <translation type="gettext">eog</translation>

@@ -84,6 +84,8 @@ modules:
       - type: archive
         url: https://download.gnome.org/sources/eog/3.34/eog-3.34.1.tar.xz
         sha256: fdb0739f8420af2ffb8e91c766a154afefdf20f721ad34b56cab27fd1569f42c
+      - type: patch
+        path: appdata_release_tag.patch
 
   - name: eog-plugins
     sources:
