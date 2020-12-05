@@ -20,6 +20,7 @@ finish-args:
 cleanup:
   - /include
   - /lib/pkgconfig
+  - /lib/cmake
   - /share/pkgconfig
   - /share/aclocal
   - /man
@@ -66,7 +67,6 @@ modules:
         commands:
           - autoreconf -vfi
 
-
   - name: libwebp
     config-opts: [ --disable-static, --enable-libwebpmux, --enable-libwebpdemux ]
     cleanup: [ /share, /bin ]
@@ -81,7 +81,33 @@ modules:
       - type: git
         url: https://github.com/aruiz/webp-pixbuf-loader.git
         commit: ddbcacf37d98aeca24429ee2cd975fb804d1f265
-    post-install:
+
+  - name: libheif
+    buildsystem: cmake-ninja
+    sources:
+      - type: archive
+        url: https://github.com/strukturag/libheif/archive/v1.9.1.tar.gz
+        sha256: 2b0d5cf7e74d7aa45da4fe53fb8c1fbac04d2b1e2bef79723d6ef154d0514deb
+      - type: shell
+        commands:
+          - sed -i 's|DESTINATION ${GDKPIXBUF2_MODULE_DIR}|DESTINATION /app/lib/gdk-pixbuf-2.0/2.10.0/loaders|' gdk-pixbuf/CMakeLists.txt
+    modules: 
+
+      - name: libde265
+        cleanup:
+          - /bin
+        config-opts:
+          - --disable-encoder
+          - --disable-sherlock265
+          - --disable-dec265
+        sources:
+          - type: archive
+            url: https://github.com/strukturag/libde265/archive/v1.0.8.tar.gz
+            sha256: c5ab61185f283f46388c700c43dc08606b0e260cd53f06b967ec0ad7a809ff11
+
+  - name: update-pixbuf-loaders # libheif and webp-pixbuf-loader install modules
+    buildsystem: simple
+    build-commands:
       - GDK_PIXBUF_MODULEDIR=/app/lib/gdk-pixbuf-2.0/2.10.0/loaders/ gdk-pixbuf-query-loaders > /app/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
       - gdk-pixbuf-query-loaders >> /app/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
 
