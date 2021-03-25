@@ -1,13 +1,13 @@
 app-id: org.gnome.eog
 runtime: org.gnome.Platform
-runtime-version: '3.38'
+runtime-version: '40'
 sdk: org.gnome.Sdk
 command: eog
 rename-appdata-file: eog.appdata.xml
 finish-args:
   # X11 + XShm access
   - --share=ipc
-  - --socket=x11
+  - --socket=fallback-x11
   # Wayland access
   - --socket=wayland
   # We want full fs access so we can read the files
@@ -40,18 +40,23 @@ modules:
 
   - name: gnome-desktop
     buildsystem: meson
+    config-opts:
+      - -Ddesktop_docs=false
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/gnome-desktop/3.38/gnome-desktop-3.38.0.tar.xz
-        sha256: 089dbbe3c66fe5575659a4a385d5d4bbd99cf637034df317f21cf586b5dd6b90
+        url: https://download.gnome.org/sources/gnome-desktop/40/gnome-desktop-40.0.tar.xz
+        sha256: 20abfd3f831e4e8092b55839311661dc73b2bf13fc9bef71c4a5a4475da9ee04
 
   - name: libpeas
     buildsystem: meson
-    cleanup: [/bin/*, /lib/peas-demo]
+    config-opts:
+      - -Dglade_catalog=false
+      - -Ddemos=false
+    cleanup: [/lib/peas-demo]
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/libpeas/1.28/libpeas-1.28.0.tar.xz
-        sha256: 42d91993b46ed50f16add6d9577ecc22beb8e2dffa7101e2232c2b63733b8b15
+        url: https://download.gnome.org/sources/libpeas/1.30/libpeas-1.30.0.tar.xz
+        sha256: 0bf5562e9bfc0382a9dcb81f64340787542568762a3a367d9d90f6185898b9a3
 
   - name: exempi
     cleanup: [ /bin ]
@@ -72,26 +77,29 @@ modules:
     cleanup: [ /share, /bin ]
     sources:
       - type: archive
-        url: https://github.com/webmproject/libwebp/archive/v1.1.0.tar.gz
-        sha256: 424faab60a14cb92c2a062733b6977b4cc1e875a6398887c5911b3a1a6c56c51
+        url: https://github.com/webmproject/libwebp/archive/v1.2.0.tar.gz
+        sha256: d60608c45682fa1e5d41c3c26c199be5d0184084cd8a971a6fc54035f76487d3
 
   - name: webp-pixbuf-loader
-    buildsystem: cmake-ninja
+    buildsystem: meson
+    config-opts:
+      - -Dgdk_pixbuf_moduledir=/app/lib/
     sources:
       - type: git
         url: https://github.com/aruiz/webp-pixbuf-loader.git
-        commit: ddbcacf37d98aeca24429ee2cd975fb804d1f265
+        tag: 0.0.3
+        commit: ffddc060497ee11d6cc573dae01a528b357b91ec
 
   - name: libheif
     buildsystem: cmake-ninja
     sources:
       - type: archive
-        url: https://github.com/strukturag/libheif/archive/v1.9.1.tar.gz
-        sha256: 2b0d5cf7e74d7aa45da4fe53fb8c1fbac04d2b1e2bef79723d6ef154d0514deb
+        url: https://github.com/strukturag/libheif/archive/v1.11.0.tar.gz
+        sha256: 993c3320e179b8fdce983e3a7e96615af3830077be6b0ab28bfa25579df08d26
       - type: shell
         commands:
           - sed -i 's|DESTINATION ${GDKPIXBUF2_MODULE_DIR}|DESTINATION /app/lib/gdk-pixbuf-2.0/2.10.0/loaders|' gdk-pixbuf/CMakeLists.txt
-    modules: 
+    modules:
 
       - name: libde265
         cleanup:
@@ -115,11 +123,11 @@ modules:
     buildsystem: meson
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/eog/3.38/eog-3.38.1.tar.xz
-        sha256: b71dc961c277effa70dbd466657a81585f52ee8b35bc6e9da20c993568740cf7
+        url: https://download.gnome.org/sources/eog/40/eog-40.0.tar.xz
+        sha256: 3017c984f115977c22bc4f9d27d09f80ec96adf6901b4ec0f4f542ef023de5f9
 
   - name: eog-plugins
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/eog-plugins/3.26/eog-plugins-3.26.6.tar.xz
-        sha256: 7757d1312f5d9dc002386d16948fb9977c813ad59a3f201d4f731b0271c21a84
+        url: https://download.gnome.org/sources/eog-plugins/3.26/eog-plugins-3.26.7.tar.xz
+        sha256: 2ce6c19e29eb723e2362a8b0d9c396e686d065e17acfc584cc8c2b0949a17b3d
