@@ -76,10 +76,9 @@ modules:
     config-opts: [ --disable-static, --enable-libwebpmux, --enable-libwebpdemux ]
     cleanup: [ /share, /bin ]
     sources:
-      - type: git
-        url: https://github.com/webmproject/libwebp.git
-        tag: v1.2.1
-        commit: 9ce5843dbabcfd3f7c39ec7ceba9cbeb213cbfdf
+      - type: archive
+        url: https://github.com/webmproject/libwebp/archive/refs/tags/v1.2.1.tar.gz
+        sha256: 01bcde6a40a602294994050b81df379d71c40b7e39c819c024d079b3c56307f4
 
   - name: webp-pixbuf-loader
     buildsystem: meson
@@ -94,10 +93,9 @@ modules:
   - name: libheif
     buildsystem: cmake-ninja
     sources:
-      - type: git
-        url: https://github.com/strukturag/libheif.git
-        tag: v1.12.0
-        commit: 56c8a2613370562fc330af2c70c1510aa5fd9ff6
+      - type: archive
+        url: https://github.com/strukturag/libheif/releases/download/v1.12.0/libheif-1.12.0.tar.gz
+        sha256: e1ac2abb354fdc8ccdca71363ebad7503ad731c84022cf460837f0839e171718
       - type: shell
         commands:
           - sed -i 's|DESTINATION ${GDKPIXBUF2_MODULE_DIR}|DESTINATION /app/lib/gdk-pixbuf-2.0/2.10.0/loaders|' gdk-pixbuf/CMakeLists.txt
@@ -111,10 +109,9 @@ modules:
           - --disable-sherlock265
           - --disable-dec265
         sources:
-          - type: git
-            url: https://github.com/strukturag/libde265.git
-            tag: v1.0.8
-            commit: 8aed7472df0af25b811828fa14f2f169dc34d35a
+          - type: archive
+            url: https://github.com/strukturag/libde265/releases/download/v1.0.8/libde265-1.0.8.tar.gz
+            sha256: 24c791dd334fa521762320ff54f0febfd3c09fc978880a8c5fbc40a88f21d905
 
   - name: update-pixbuf-loaders # libheif and webp-pixbuf-loader install modules
     buildsystem: simple
