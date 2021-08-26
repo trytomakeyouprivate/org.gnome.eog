@@ -35,8 +35,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/flatpak/libportal.git
-        tag: "0.3"
-        commit: 7b11b2a42fd4e7681bd38f3986b47108c0a3cc66
+        tag: "0.4"
+        commit: f68764e288ede516d902b131cc4fadded3804059
 
   - name: gnome-desktop
     buildsystem: meson
@@ -44,8 +44,8 @@ modules:
       - -Ddesktop_docs=false
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/gnome-desktop/40/gnome-desktop-40.0.tar.xz
-        sha256: 20abfd3f831e4e8092b55839311661dc73b2bf13fc9bef71c4a5a4475da9ee04
+        url: https://download.gnome.org/sources/gnome-desktop/40/gnome-desktop-40.4.tar.xz
+        sha256: 88ae96f585e0d0870941bba3d75ddf3ec40348e1c5ae741321ca482fac9d45ef
 
   - name: libpeas
     buildsystem: meson
@@ -76,9 +76,10 @@ modules:
     config-opts: [ --disable-static, --enable-libwebpmux, --enable-libwebpdemux ]
     cleanup: [ /share, /bin ]
     sources:
-      - type: archive
-        url: https://github.com/webmproject/libwebp/archive/v1.2.0.tar.gz
-        sha256: d60608c45682fa1e5d41c3c26c199be5d0184084cd8a971a6fc54035f76487d3
+      - type: git
+        url: https://github.com/webmproject/libwebp.git
+        tag: v1.2.1
+        commit: 9ce5843dbabcfd3f7c39ec7ceba9cbeb213cbfdf
 
   - name: webp-pixbuf-loader
     buildsystem: meson
@@ -93,9 +94,10 @@ modules:
   - name: libheif
     buildsystem: cmake-ninja
     sources:
-      - type: archive
-        url: https://github.com/strukturag/libheif/archive/v1.11.0.tar.gz
-        sha256: 993c3320e179b8fdce983e3a7e96615af3830077be6b0ab28bfa25579df08d26
+      - type: git
+        url: https://github.com/strukturag/libheif.git
+        tag: v1.12.0
+        commit: 56c8a2613370562fc330af2c70c1510aa5fd9ff6
       - type: shell
         commands:
           - sed -i 's|DESTINATION ${GDKPIXBUF2_MODULE_DIR}|DESTINATION /app/lib/gdk-pixbuf-2.0/2.10.0/loaders|' gdk-pixbuf/CMakeLists.txt
@@ -109,9 +111,10 @@ modules:
           - --disable-sherlock265
           - --disable-dec265
         sources:
-          - type: archive
-            url: https://github.com/strukturag/libde265/archive/v1.0.8.tar.gz
-            sha256: c5ab61185f283f46388c700c43dc08606b0e260cd53f06b967ec0ad7a809ff11
+          - type: git
+            url: https://github.com/strukturag/libde265.git
+            tag: v1.0.8
+            commit: 8aed7472df0af25b811828fa14f2f169dc34d35a
 
   - name: update-pixbuf-loaders # libheif and webp-pixbuf-loader install modules
     buildsystem: simple
@@ -123,8 +126,8 @@ modules:
     buildsystem: meson
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/eog/40/eog-40.0.tar.xz
-        sha256: 3017c984f115977c22bc4f9d27d09f80ec96adf6901b4ec0f4f542ef023de5f9
+        url: https://download.gnome.org/sources/eog/40/eog-40.3.tar.xz
+        sha256: 28aa3b07081d95657546f70894947fa886631a2c7f955e56cf80db731ae3b235
 
   - name: eog-plugins
     sources:
