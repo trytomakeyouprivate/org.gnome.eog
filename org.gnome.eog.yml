@@ -35,11 +35,15 @@ cleanup:
 modules:
   - name: libportal
     buildsystem: meson
+    config-opts:
+      - '-Dbackends=gtk3'
+      - '-Dintrospection=false'
+      - '-Ddocs=false'
     sources:
       - type: git
         url: https://github.com/flatpak/libportal.git
-        tag: '0.4'
-        commit: f68764e288ede516d902b131cc4fadded3804059
+        tag: '0.5'
+        commit: 467a397fd7996557f837cdc26ac07c01c62810e5
         x-checker-data:
           type: json
           url: https://api.github.com/repos/flatpak/libportal/releases/latest
@@ -170,7 +174,8 @@ modules:
         x-checker-data:
           type: gnome
           name: eog
-
+      - type: patch
+        path: '0001-Update-libportal-usage.patch'
 
   - name: eog-plugins
     sources:
