@@ -175,6 +175,10 @@ modules:
           name: eog
 
   - name: eog-plugins
+    buildsystem: meson
+    config-opts:
+      - -Dplugin_map=false
+      - -Dplugin_postasa=false
     sources:
       - type: archive
         url: https://download.gnome.org/sources/eog-plugins/42/eog-plugins-42.0.tar.xz
