@@ -1,6 +1,6 @@
 app-id: org.gnome.eog
 runtime: org.gnome.Platform
-runtime-version: '41'
+runtime-version: '42'
 sdk: org.gnome.Sdk
 command: eog
 rename-appdata-file: eog.appdata.xml
@@ -15,7 +15,6 @@ finish-args:
   # Migrate old dconf settings
   - --metadata=X-DConf=migrate-path=/org/gnome/eog/
   # Trash access
-  - --talk-name=org.gtk.vfs
   - --talk-name=org.gtk.vfs.*
   - --filesystem=xdg-run/gvfs:ro
   # For webp pixbuf module
@@ -42,8 +41,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/flatpak/libportal.git
-        tag: '0.5'
-        commit: 467a397fd7996557f837cdc26ac07c01c62810e5
+        tag: '0.6'
+        commit: 13df0b887a7eb7b0f9b14069561a41f62e813155
         x-checker-data:
           type: json
           url: https://api.github.com/repos/flatpak/libportal/releases/latest
@@ -57,8 +56,8 @@ modules:
       - -Ddesktop_docs=false
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/gnome-desktop/41/gnome-desktop-41.3.tar.xz
-        sha256: 8cd1caab9311828c0452468c6a5067a9bc4463835b23a14be44e8fd9b03001c6
+        url: https://download.gnome.org/sources/gnome-desktop/42/gnome-desktop-42.0.tar.xz
+        sha256: f3caa293a5e86f6ccad18f817273db1c67061e680d79d839aa8a7528e5bb26d6
         x-checker-data:
           type: gnome
           name: gnome-desktop
@@ -71,8 +70,8 @@ modules:
     cleanup: [/lib/peas-demo]
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/libpeas/1.30/libpeas-1.30.0.tar.xz
-        sha256: 0bf5562e9bfc0382a9dcb81f64340787542568762a3a367d9d90f6185898b9a3
+        url: https://download.gnome.org/sources/libpeas/1.32/libpeas-1.32.0.tar.xz
+        sha256: d625520fa02e8977029b246ae439bc218968965f1e82d612208b713f1dcc3d0e
         x-checker-data:
           type: gnome
           name: libpeas
@@ -169,19 +168,21 @@ modules:
     buildsystem: meson
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/eog/41/eog-41.1.tar.xz
-        sha256: 86e1b9ba39dacf74226afa457ab983b41253b89f617bf54139cad0892d02d8a9
+        url: https://download.gnome.org/sources/eog/42/eog-42.0.tar.xz
+        sha256: fb35bfb5167a42121f59a7b9b7ac0d75bbd0517b9afd6d91831e84d35735ddf8
         x-checker-data:
           type: gnome
           name: eog
-      - type: patch
-        path: 0001-Update-libportal-usage.patch
 
   - name: eog-plugins
+    buildsystem: meson
+    config-opts:
+      - -Dplugin_map=false
+      - -Dplugin_postasa=false
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/eog-plugins/3.26/eog-plugins-3.26.8.tar.xz
-        sha256: 80709f435232375f71f4b5d74267597a16b0922b271d1c81e522817eae6c9db5
+        url: https://download.gnome.org/sources/eog-plugins/42/eog-plugins-42.0.tar.xz
+        sha256: 3461572401b023d1fc1b07c4baf4240c64d81947ff8b62e02d35968405927caa
         x-checker-data:
           type: gnome
           name: eog-plugins
