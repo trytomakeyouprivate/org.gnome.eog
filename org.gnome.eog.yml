@@ -81,6 +81,7 @@ modules:
     rm-configure: true
     config-opts:
       - --disable-unittest
+      - --disable-static
     sources:
       - type: archive
         url: https://libopenraw.freedesktop.org/download/exempi-2.6.2.tar.bz2
@@ -123,6 +124,8 @@ modules:
 
   - name: libheif
     buildsystem: cmake-ninja
+    config-opts:
+      - -DWITH_EXAMPLES=OFF
     sources:
       - type: archive
         url: https://github.com/strukturag/libheif/releases/download/v1.14.0/libheif-1.14.0.tar.gz
@@ -146,6 +149,7 @@ modules:
           - --disable-encoder
           - --disable-sherlock265
           - --disable-dec265
+          - --disable-static
         sources:
           - type: archive
             url: https://github.com/strukturag/libde265/releases/download/v1.0.9/libde265-1.0.9.tar.gz
@@ -158,17 +162,44 @@ modules:
                 | first | .browser_download_url
 
   - name: jpeg-xl
-    buildsystem: cmake
+    buildsystem: cmake-ninja
     config-opts:
-      - -DJPEGXL_ENABLE_PLUGINS=true
+      - -DCMAKE_BUILD_STATIC_LIBS=OFF
+      - -DJPEGXL_FORCE_SYSTEM_BROTLI=ON
+      - -DJPEGXL_FORCE_SYSTEM_LCMS2=ON
+      - -DJPEGXL_FORCE_SYSTEM_HWY=ON
+      - -DJPEGXL_ENABLE_PLUGINS=ON
+      - -DJPEGXL_ENABLE_TOOLS=OFF
+      - -DJPEGXL_ENABLE_EXAMPLES=OFF
+      - -DJPEGXL_ENABLE_MANPAGES=OFF
+      - -DJPEGXL_ENABLE_FUZZERS=OFF
+      - -DBUILD_TESTING=OFF
+    post-install:
+      # It doesn't respect disabling static libraries...
+      - rm $FLATPAK_DEST/lib/*.a
     sources:
       - type: git
         url: https://github.com/libjxl/libjxl.git
-        tag: v0.7.0
+        commit: v0.7.0
       - type: patch
         path: patches/pixbuf-moduledir.patch
+    modules:
 
-  - name: update-pixbuf-loaders # libheif and webp-pixbuf-loader install modules
+      - name: hwy
+        buildsystem: cmake-ninja
+        config-opts:
+          - -DBUILD_SHARED_LIBS=ON
+          - -DHWY_ENABLE_TESTS=OFF
+          - -DHWY_ENABLE_EXAMPLES=OFF
+          - -DHWY_ENABLE_CONTRIB=OFF
+        post-install:
+          - rm $FLATPAK_DEST/lib/libhwy_test*
+        sources:
+          - type: archive
+            url: https://github.com/google/highway/archive/refs/tags/1.0.2.tar.gz
+            sha256: e8ef71236ac0d97f12d553ec1ffc5b6375d57b5f0b860c7447dd69b6ed1072db
+
+  - name: update-pixbuf-loaders # libheif, jpegxl, and webp-pixbuf-loader install modules
     buildsystem: simple
     build-commands:
       - GDK_PIXBUF_MODULEDIR=/app/lib/gdk-pixbuf-2.0/2.10.0/loaders/ gdk-pixbuf-query-loaders
