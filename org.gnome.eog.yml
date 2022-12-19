@@ -84,8 +84,8 @@ modules:
       - --disable-static
     sources:
       - type: archive
-        url: https://libopenraw.freedesktop.org/download/exempi-2.6.2.tar.bz2
-        sha256: 4d17d4c93df2a95da3e3172c45b7a5bf317dd31dafd1c7a340169728c7089d1d
+        url: https://libopenraw.freedesktop.org/download/exempi-2.6.3.tar.bz2
+        sha256: b0749db18a9e78cf771737954a838cdcdb1d5415888bac1ba9caf8cba77c656c
         x-checker-data:
           type: anitya
           project-id: 767
@@ -129,8 +129,8 @@ modules:
       - -DWITH_EXAMPLES=OFF
     sources:
       - type: archive
-        url: https://github.com/strukturag/libheif/releases/download/v1.13.0/libheif-1.13.0.tar.gz
-        sha256: c20ae01bace39e89298f6352f1ff4a54b415b33b9743902da798e8a1e51d7ca1
+        url: https://github.com/strukturag/libheif/releases/download/v1.14.0/libheif-1.14.0.tar.gz
+        sha256: 9a2b969d827e162fa9eba582ebd0c9f6891f16e426ef608d089b1f24962295b5
         x-checker-data:
           type: json
           url: https://api.github.com/repos/strukturag/libheif/releases/latest
