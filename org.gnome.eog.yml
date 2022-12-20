@@ -14,9 +14,9 @@ finish-args:
   - --filesystem=host
   # Migrate old dconf settings
   - --metadata=X-DConf=migrate-path=/org/gnome/eog/
-  # Trash access
+  # GVFS access
   - --talk-name=org.gtk.vfs.*
-  - --filesystem=xdg-run/gvfs:ro
+  - --filesystem=xdg-run/gvfsd
   # For webp pixbuf module
   - --env=GDK_PIXBUF_MODULE_FILE=/app/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
 cleanup:
