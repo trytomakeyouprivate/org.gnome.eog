@@ -127,6 +127,13 @@ modules:
     buildsystem: cmake-ninja
     config-opts:
       - -DWITH_EXAMPLES=OFF
+      # Workaround for regression in 1.14.0, fixed in 1.14.1
+      - -DENABLE_PLUGIN_LOADING=OFF
+      # Disable Encoders
+      - -DWITH_SvtEnc=OFF
+      - -DWITH_AOM_ENCODER=OFF
+      - -DWITH_X265=OFF
+      - -DWITH_RAV1E=OFF
     sources:
       - type: archive
         url: https://github.com/strukturag/libheif/releases/download/v1.14.0/libheif-1.14.0.tar.gz
