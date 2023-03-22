@@ -1,4 +1,4 @@
-app-id: org.gnome.eog
+id: org.gnome.eog
 runtime: org.gnome.Platform
 runtime-version: '43'
 sdk: org.gnome.Sdk
