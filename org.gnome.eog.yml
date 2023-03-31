@@ -56,8 +56,8 @@ modules:
       - -Ddesktop_docs=false
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/gnome-desktop/44/gnome-desktop-44.tar.xz
-        sha256: ec8168a3ba91cab8772d56cc373a2bd309ca4ea1f00e5087e60faccbdb3cc985
+        url: https://download.gnome.org/sources/gnome-desktop/44/gnome-desktop-44.0.tar.xz
+        sha256: 42c773745d84ba14bc1cf1c4c6f4606148803a5cd337941c63964795f3c59d42
         x-checker-data:
           type: gnome
           name: gnome-desktop
@@ -114,8 +114,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/aruiz/webp-pixbuf-loader.git
-        tag: 0.2.2
-        commit: 36b3df08af61887f3558e4d783e8710627a7a4b7
+        tag: 0.2.4
+        commit: a35014104a226265e44fe30fcdb4df9305af3466
         x-checker-data:
           type: json
           url: https://api.github.com/repos/aruiz/webp-pixbuf-loader/releases/latest
@@ -136,8 +136,8 @@ modules:
       - -DWITH_RAV1E=OFF
     sources:
       - type: archive
-        url: https://github.com/strukturag/libheif/releases/download/v1.15.1/libheif-1.15.1.tar.gz
-        sha256: 28d5a376fe7954d2d03453f983aaa0b7486f475c27c7806bda31df9102325556
+        url: https://github.com/strukturag/libheif/releases/download/v1.15.2/libheif-1.15.2.tar.gz
+        sha256: 7a4c6077f45180926583e2087571371bdd9cb21b6e6fada85a6fbd544f26a0e2
         x-checker-data:
           type: json
           url: https://api.github.com/repos/strukturag/libheif/releases/latest
