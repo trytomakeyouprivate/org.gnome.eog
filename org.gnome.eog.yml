@@ -10,8 +10,13 @@ finish-args:
   - --socket=fallback-x11
   # Wayland access
   - --socket=wayland
-  # We want full fs access so we can read the files
-  - --filesystem=host
+  # Read all files in possible directories for media
+  - --filesystem=home:ro
+  - --filesystem=/media:ro
+  - --filesystem=/mnt:ro
+  - --filesystem=/run/media:ro
+  - --filesystem=/var/run/media:ro
+  - --filesystem=/var/mnt:ro
   # Migrate old dconf settings
   - --metadata=X-DConf=migrate-path=/org/gnome/eog/
   # GVFS access
